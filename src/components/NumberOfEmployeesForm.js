@@ -11,17 +11,13 @@ function NumberOfEmployeesForm(props) {
       </div>
       <div className="input">
         <input
-          onChange={(e) =>
-            e.target.value !== ""
-              ? props.setnumberOfEmployees(parseInt(e.target.value))
-              : props.setnumberOfEmployees(0)
-          }
+          onChange={(e) => props.formValidationFunction(e.target.value)}
           type="text"
           name={props.name}
         />
       </div>
     </div>
-    <ValidationMessage></ValidationMessage>
+    <ValidationMessage message={props.message}></ValidationMessage>
     </div>
   );
 }

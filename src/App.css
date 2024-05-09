@@ -31,10 +31,10 @@
 .data-container{
   display: flex;
   flex-direction: row;
-  width: 700px;
+  width: 800px;
 }
 
 .validation-message{
   padding: 10px;
-  width: 200px;
+  width: 300px;
 }
