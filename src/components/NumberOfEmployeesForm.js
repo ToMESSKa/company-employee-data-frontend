@@ -1,5 +1,10 @@
+import ValidationMessage from "./ValidationMessage";
+
 function NumberOfEmployeesForm(props) {
   return (
+
+
+  <div className="data-container">
     <div className="form">
       <div className="label">
         <label>{props.label}: </label>
@@ -15,6 +20,8 @@ function NumberOfEmployeesForm(props) {
           name={props.name}
         />
       </div>
+    </div>
+    <ValidationMessage></ValidationMessage>
     </div>
   );
 }
