@@ -1,7 +1,7 @@
 
 .data-section {
   display: flex;
-  padding: 30px;
+  padding: 50px;
   flex-direction: column;
 }
 
@@ -21,4 +21,8 @@
 .App{
   display: flex;
   flex-direction: row;
+}
+
+.employee-data{
+  padding-bottom: 20px;
 }
