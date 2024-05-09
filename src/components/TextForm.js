@@ -8,13 +8,20 @@ function TextForm(props) {
           <label>{props.label}: </label>
         </div>
         <div
-          onChange={(e) => props.formValidationFunction(e.target.value)}
+          onChange={(e) =>
+            props.formValidationFunction(
+              e.target.value,
+              parseInt(e.target.getAttribute("data"))
+            )
+          }
           className="input"
         >
-          <input type="text" name={props.name} />
+          <input data={props.data} type="text" name={props.name} />
         </div>
       </div>
-      <ValidationMessage message={props.message}></ValidationMessage>
+      <ValidationMessage
+        message={props.message}
+      ></ValidationMessage>
     </div>
   );
 }

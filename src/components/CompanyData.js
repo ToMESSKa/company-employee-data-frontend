@@ -2,12 +2,16 @@ import TextForm from "./TextForm";
 import "../App.css";
 import NumberOfEmployeesForm from "./NumberOfEmployeesForm";
 import ValidationMessage from "./ValidationMessage";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function CompanyData(props) {
   const [companyNameMessage, setcompanyNameMessage] = useState();
   const [emailMessage, setEmailMessage] = useState();
   const [numberOfEmployeesMessage, setnumberOfEmployeesMessage] = useState();
+
+//   useEffect(() => {
+//     props.handleSearchForContinentAndCurrency()
+// }, [props.countryCode]);
 
   const checkCompanyName = (input) => {
     input === ""
@@ -32,12 +36,22 @@ function CompanyData(props) {
       parseInt(input) >= 1 &&
       parseInt(input) <= 100
     ) {
-      props.setnumberOfEmployees(parseInt(input));
+    //   props.setnumberOfEmployees(parseInt(input));
+    createEmployeeValidationMessages(parseInt(input))
       setnumberOfEmployeesMessage("OK");
     } else {
-      props.setnumberOfEmployees(0);
+    //   props.setnumberOfEmployees(0);
       setnumberOfEmployeesMessage("Must be between 1 and 100");
     }
+  };
+
+  const createEmployeeValidationMessages = (input) => {
+    let createEmployeeValidationMessages = [];
+    for (let i = 1; i <= input; i++) {
+        let employee = {employeeID: i, name: "", age: "", email: ""};
+        createEmployeeValidationMessages.push(employee)
+    }
+    props.setEmployeeValidationMessages(createEmployeeValidationMessages)
   };
 
   
