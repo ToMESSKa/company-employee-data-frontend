@@ -1,21 +1,11 @@
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
 
-.company-data {
+.data-section {
   display: flex;
   padding: 30px;
   flex-direction: column;
 }
 
-.text-form {
+.form {
   width: 500px;
   display: flex;
   flex-direction: row;
@@ -23,7 +13,12 @@
   justify-content: space-between;
 }
 
-.company-data-title{
+.data-section-title{
   font-size: large;
   padding-bottom: 10px;
+}
+
+.App{
+  display: flex;
+  flex-direction: row;
 }

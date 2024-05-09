@@ -1,12 +1,12 @@
 // import "./App.css";
 import CompanyData from "./components/CompanyData";
+import EmployeeData from "./components/EmployeeData";
 
 function App() {
   return (
     <div className="App">
-      <div>
         <CompanyData></CompanyData>
-      </div>
+        <EmployeeData></EmployeeData>
     </div>
   );
 }

@@ -3,8 +3,8 @@ import "../App.css";
 
 function CompanyData() {
   return (
-    <div className="company-data">
-    <div className="company-data-title">Company data:</div>
+    <div className="data-section">
+    <div className="data-section-title">Company data:</div>
       <TextForm label={"name"} name={"name"}></TextForm>
       <TextForm label={"e-mail"} name={"e-mail"}></TextForm>
       <TextForm

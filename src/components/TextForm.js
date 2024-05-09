@@ -1,6 +1,6 @@
 function TextForm(props) {
   return (
-    <div className="text-form">
+    <div className="form">
       <div className="label">
         <label>{props.label}: </label>
       </div>
