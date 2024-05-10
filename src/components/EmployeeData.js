@@ -7,16 +7,24 @@ import CVUpload from "./CVUpload";
 function EmployeeData(props) {
   const [file, setFile] = useState();
 
-
   const checkCV = (file, id) => {
     let fileformat = file["name"].split(".").pop();
+    let cvMessage = "";
+    fileformat === "pdf" ? (cvMessage = "OK") : (cvMessage = "Must be a pdf!");
     const employeeValidationMessages = props.employeeValidationMessages.map(
       (employee) => {
-        if (employee.employeeID === id && fileformat === "pdf") {
+        if (employee.Employee.employeeID === id) {
           setFile(file);
-          return { ...employee, cv: "OK" };
-        } else if (employee.employeeID === id) {
-          return { ...employee, cv: "File must be pdf!" };
+          return {
+            ...employee,
+            Employee: {
+              ...employee.Employee,
+              cv: {
+                ...employee.Employee.cv,
+                message: cvMessage,
+              },
+            },
+          };
         }
         return employee;
       }
@@ -27,10 +35,27 @@ function EmployeeData(props) {
   const checkEmployeeName = (input, id) => {
     const employeeValidationMessages = props.employeeValidationMessages.map(
       (employee) => {
-        if (employee.employeeID === id && input === "") {
-          return { ...employee, name: "Field cannot be empty" };
-        } else if (employee.employeeID === id) {
-          return { ...employee, name: "OK" };
+        console.log(employee.Employee.employeeID);
+        console.log(id);
+        if (employee.Employee.employeeID === id && input === "") {
+          return {
+            ...employee,
+            Employee: {
+              ...employee.Employee,
+              name: {
+                ...employee.Employee.name,
+                message: "Field cannot be empty",
+              },
+            },
+          };
+        } else if (employee.Employee.employeeID === id) {
+          return {
+            ...employee,
+            Employee: {
+              ...employee.Employee,
+              name: { ...employee.Employee.name, message: "OK" },
+            },
+          };
         }
         return employee;
       }
@@ -49,8 +74,17 @@ function EmployeeData(props) {
       : (emailMessage = "Must be valid e-mail address");
     const employeeValidationMessages = props.employeeValidationMessages.map(
       (employee) => {
-        if (employee.employeeID === id) {
-          return { ...employee, email: emailMessage };
+        if (employee.Employee.employeeID === id) {
+          return {
+            ...employee,
+            Employee: {
+              ...employee.Employee,
+              email: {
+                ...employee.Employee.email,
+                message: emailMessage,
+              },
+            },
+          };
         }
         return employee;
       }
@@ -65,8 +99,17 @@ function EmployeeData(props) {
       : (ageMessage = "Must be over 18 years old");
     const employeeValidationMessages = props.employeeValidationMessages.map(
       (employee) => {
-        if (employee.employeeID === id) {
-          return { ...employee, age: ageMessage };
+        if (employee.Employee.employeeID === id) {
+          return {
+            ...employee,
+            Employee: {
+              ...employee.Employee,
+              age: {
+                ...employee.Employee.age,
+                message: ageMessage,
+              },
+            },
+          };
         }
         return employee;
       }
@@ -81,22 +124,22 @@ function EmployeeData(props) {
         <div className="employee-container">
           <div className="employee-data">
             <TextForm
-              message={employee.name}
-              data={employee.employeeID}
+              message={employee.Employee.name.message}
+              data={employee.Employee.employeeID}
               formValidationFunction={checkEmployeeName}
               label={"name"}
               name={"name"}
             ></TextForm>
             <TextForm
-              data={employee.employeeID}
-              message={employee.email}
+              data={employee.Employee.employeeID}
+              message={employee.Employee.email.message}
               formValidationFunction={checkEmployeeEmail}
               label={"e-mail"}
               name={"e-mail"}
             ></TextForm>
             <TextForm
-              data={employee.employeeID}
-              message={employee.age}
+              data={employee.Employee.employeeID}
+              message={employee.Employee.age.message}
               formValidationFunction={checkEmployeeAge}
               label={"age"}
               name={"age"}
@@ -105,8 +148,8 @@ function EmployeeData(props) {
           </div>
           <div className="employee-cv">
             <CVUpload
-              ei={employee.employeeID}
-              message={employee.cv}
+              data={employee.Employee.employeeID}
+              message={employee.Employee.cv.message}
               checkCV={checkCV}
             ></CVUpload>
           </div>

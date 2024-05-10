@@ -11,7 +11,6 @@ function CompanyData(props) {
 
   const [file, setFile] = useState();
 
-
   function handleSubmit(event) {
     // event.preventDefault()
     // const url = 'http://localhost:3000/uploadfile';
@@ -61,7 +60,15 @@ function CompanyData(props) {
   const createEmployeeValidationMessages = (input) => {
     let createEmployeeValidationMessages = [];
     for (let i = 1; i <= input; i++) {
-      let employee = { employeeID: i, name: "", age: "", email: "", cv: "" };
+      let employee = {
+        Employee: {
+          employeeID: i,
+          name: { inputValue: "", message: "" },
+          age: { inputValue: "", message: "" },
+          email: { inputValue: "", message: "" },
+          cv: { inputValue: "", message: "" },
+        },
+      };
       createEmployeeValidationMessages.push(employee);
     }
     props.setEmployeeValidationMessages(createEmployeeValidationMessages);
