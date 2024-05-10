@@ -5,20 +5,24 @@ import React, { useState } from "react";
 import CVUpload from "./CVUpload";
 
 function EmployeeData(props) {
-
   const [file, setFile] = useState();
 
-  const handleFileUpload = (event) => {
-    if (event.target.files[0]["name"].split(".").pop() === "pdf") {
-      console.log("HZZZ");
-      setFile(event.target.files[0]);
-    } else {
-      console.log("error");
-      console.log(file);
-    }
-  }
 
-
+  const checkCV = (file, id) => {
+    let fileformat = file["name"].split(".").pop();
+    const employeeValidationMessages = props.employeeValidationMessages.map(
+      (employee) => {
+        if (employee.employeeID === id && fileformat === "pdf") {
+          setFile(file);
+          return { ...employee, cv: "OK" };
+        } else if (employee.employeeID === id) {
+          return { ...employee, cv: "File must be pdf!" };
+        }
+        return employee;
+      }
+    );
+    props.setEmployeeValidationMessages(employeeValidationMessages);
+  };
 
   const checkEmployeeName = (input, id) => {
     const employeeValidationMessages = props.employeeValidationMessages.map(
@@ -76,31 +80,35 @@ function EmployeeData(props) {
       {props.employeeValidationMessages.map((employee) => (
         <div className="employee-container">
           <div className="employee-data">
-          <TextForm
-            message={employee.name}
-            data={employee.employeeID}
-            formValidationFunction={checkEmployeeName}
-            label={"name"}
-            name={"name"}
-          ></TextForm>
-          <TextForm
-            data={employee.employeeID}
-            message={employee.email}
-            formValidationFunction={checkEmployeeEmail}
-            label={"e-mail"}
-            name={"e-mail"}
-          ></TextForm>
-          <TextForm
-            data={employee.employeeID}
-            message={employee.age}
-            formValidationFunction={checkEmployeeAge}
-            label={"age"}
-            name={"age"}
-          ></TextForm>
-          <JobTitleForm label={"job-title"}> </JobTitleForm>
+            <TextForm
+              message={employee.name}
+              data={employee.employeeID}
+              formValidationFunction={checkEmployeeName}
+              label={"name"}
+              name={"name"}
+            ></TextForm>
+            <TextForm
+              data={employee.employeeID}
+              message={employee.email}
+              formValidationFunction={checkEmployeeEmail}
+              label={"e-mail"}
+              name={"e-mail"}
+            ></TextForm>
+            <TextForm
+              data={employee.employeeID}
+              message={employee.age}
+              formValidationFunction={checkEmployeeAge}
+              label={"age"}
+              name={"age"}
+            ></TextForm>
+            <JobTitleForm label={"job-title"}> </JobTitleForm>
           </div>
           <div className="employee-cv">
-            <CVUpload handleFileUpload={handleFileUpload}></CVUpload>
+            <CVUpload
+              ei={employee.employeeID}
+              message={employee.cv}
+              checkCV={checkCV}
+            ></CVUpload>
           </div>
         </div>
       ))}

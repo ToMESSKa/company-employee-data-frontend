@@ -11,15 +11,6 @@ function CompanyData(props) {
 
   const [file, setFile] = useState();
 
-  function handleChange(event) {
-    if (event.target.files[0]["name"].split(".").pop() === "pdf") {
-      console.log("HZZZ");
-      setFile(event.target.files[0]);
-    } else {
-      console.log("error");
-      console.log(file);
-    }
-  }
 
   function handleSubmit(event) {
     // event.preventDefault()
@@ -98,11 +89,6 @@ function CompanyData(props) {
         name={"number-of-employees"}
       ></NumberOfEmployeesForm>
       <TextForm label={"description"} name={"description"}></TextForm>
-
-      <form>
-        <input onChange={handleChange}type="file" name="file" id="file" class="inputfile" />
-        <label for="file">Click to upload CV</label>
-      </form>
     </div>
   );
 }
