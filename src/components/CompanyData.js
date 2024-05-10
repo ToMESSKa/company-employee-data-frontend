@@ -1,17 +1,41 @@
 import TextForm from "./TextForm";
 import "../App.css";
 import NumberOfEmployeesForm from "./NumberOfEmployeesForm";
-import ValidationMessage from "./ValidationMessage";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 function CompanyData(props) {
   const [companyNameMessage, setcompanyNameMessage] = useState();
   const [emailMessage, setEmailMessage] = useState();
   const [numberOfEmployeesMessage, setnumberOfEmployeesMessage] = useState();
 
-//   useEffect(() => {
-//     props.handleSearchForContinentAndCurrency()
-// }, [props.countryCode]);
+  const [file, setFile] = useState();
+
+  function handleChange(event) {
+    if (event.target.files[0]["name"].split(".").pop() === "pdf") {
+      console.log("HZZZ");
+      setFile(event.target.files[0]);
+    } else {
+      console.log("error");
+      console.log(file);
+    }
+  }
+
+  function handleSubmit(event) {
+    // event.preventDefault()
+    // const url = 'http://localhost:3000/uploadfile';
+    // const formData = new FormData();
+    // formData.append('file', file);
+    // formData.append('fileName', file.name);
+    // const config = {
+    //   headers: {
+    //     'content-type': 'multipart/form-data',
+    //   },
+    // };
+    // axios.post(url, formData, config).then((response) => {
+    //   console.log(response.data);
+    // });
+  }
 
   const checkCompanyName = (input) => {
     input === ""
@@ -36,11 +60,9 @@ function CompanyData(props) {
       parseInt(input) >= 1 &&
       parseInt(input) <= 100
     ) {
-    //   props.setnumberOfEmployees(parseInt(input));
-    createEmployeeValidationMessages(parseInt(input))
+      createEmployeeValidationMessages(parseInt(input));
       setnumberOfEmployeesMessage("OK");
     } else {
-    //   props.setnumberOfEmployees(0);
       setnumberOfEmployeesMessage("Must be between 1 and 100");
     }
   };
@@ -48,13 +70,11 @@ function CompanyData(props) {
   const createEmployeeValidationMessages = (input) => {
     let createEmployeeValidationMessages = [];
     for (let i = 1; i <= input; i++) {
-        let employee = {employeeID: i, name: "", age: "", email: ""};
-        createEmployeeValidationMessages.push(employee)
+      let employee = { employeeID: i, name: "", age: "", email: "", cv: "" };
+      createEmployeeValidationMessages.push(employee);
     }
-    props.setEmployeeValidationMessages(createEmployeeValidationMessages)
+    props.setEmployeeValidationMessages(createEmployeeValidationMessages);
   };
-
-  
 
   return (
     <div className="data-section">
@@ -72,13 +92,17 @@ function CompanyData(props) {
         name={"e-mail"}
       ></TextForm>
       <NumberOfEmployeesForm
-        // setnumberOfEmployees={props.setnumberOfEmployees}
         message={numberOfEmployeesMessage}
         formValidationFunction={checkNumberOfEmployees}
         label={"number of employees"}
         name={"number-of-employees"}
       ></NumberOfEmployeesForm>
       <TextForm label={"description"} name={"description"}></TextForm>
+
+      <form>
+        <input onChange={handleChange}type="file" name="file" id="file" class="inputfile" />
+        <label for="file">Click to upload CV</label>
+      </form>
     </div>
   );
 }

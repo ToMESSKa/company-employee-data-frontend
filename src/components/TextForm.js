@@ -9,6 +9,7 @@ function TextForm(props) {
         </div>
         <div
           onChange={(e) =>
+            props.formValidationFunction &&
             props.formValidationFunction(
               e.target.value,
               parseInt(e.target.getAttribute("data"))
@@ -19,9 +20,7 @@ function TextForm(props) {
           <input data={props.data} type="text" name={props.name} />
         </div>
       </div>
-      <ValidationMessage
-        message={props.message}
-      ></ValidationMessage>
+      <ValidationMessage message={props.message}></ValidationMessage>
     </div>
   );
 }

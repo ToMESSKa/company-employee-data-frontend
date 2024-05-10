@@ -1,4 +1,3 @@
-
 .data-section {
   display: flex;
   padding: 50px;
@@ -11,30 +10,56 @@
   display: flex;
   flex-direction: row;
   padding: 10px;
-  justify-content:space-between
+  justify-content: space-between;
 }
 
-.data-section-title{
+.data-section-title {
   font-size: large;
   padding-bottom: 10px;
 }
 
-.App{
+.App {
   display: flex;
   flex-direction: row;
 }
 
-.employee-data{
+.employee-data {
   padding-bottom: 20px;
 }
 
-.data-container{
+.data-container {
   display: flex;
   flex-direction: row;
-  width: 800px;
+  width: 600px;
 }
 
-.validation-message{
+.validation-message {
   padding: 10px;
   width: 300px;
 }
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.employee-container{
+
+  display: flex;
+  flex-direction: row;
+
+}
+
+.employee-cv{
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
