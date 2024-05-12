@@ -95,10 +95,11 @@ function CompanyData(props) {
       addNewEmployees(employeesToCreate, id);
     } else {
       let employeesToRemove = numberOfEmployees - input;
+      let employeeInformation = [...props.employeeInformation];
       setnumberOfEmployees(input);
       for (let i = 1; i <= employeesToRemove; i++) {
-        props.employeeInformation.pop();
-        props.setEmployeeInformation(props.employeeInformation);
+        employeeInformation.pop();
+        props.setEmployeeInformation(employeeInformation);
       }
     }
   };
