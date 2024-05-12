@@ -57,7 +57,7 @@ function EmployeeData(props) {
 
   const checkEmployeeName = (input, id) => {
     const employeeInformation = props.employeeInformation.map((employee) => {
-      if (employee.Employee.employeeID === id && input === "") {
+      if (employee.Employee.employeeID === id && input.trim() === "") {
         return {
           ...employee,
           Employee: {
@@ -65,6 +65,7 @@ function EmployeeData(props) {
             name: {
               ...employee.Employee.name,
               message: "Field cannot be empty",
+              sign: "ERROR",
             },
           },
         };
@@ -116,7 +117,7 @@ function EmployeeData(props) {
 
   const checkEmployeeAge = (input, id) => {
     let ageMessage = 0;
-    isNaN(input) ? (ageMessage = "Must be a number") :
+    isNaN(input) ? (ageMessage = "Must be a number"):
     input >= 18
       ? (ageMessage = "OK")
       : (ageMessage = "Must be over 18 years old");
@@ -146,6 +147,7 @@ function EmployeeData(props) {
         <div className="employee-container">
           <div className="employee-data">
             <TextForm
+              sign={employee.Employee.name.sign}
               message={employee.Employee.name.message}
               data={employee.Employee.employeeID}
               formValidationFunction={checkEmployeeName}
@@ -153,6 +155,7 @@ function EmployeeData(props) {
               name={"name"}
             ></TextForm>
             <TextForm
+            sign={employee.Employee.email.sign}
               data={employee.Employee.employeeID}
               message={employee.Employee.email.message}
               formValidationFunction={checkEmployeeEmail}
@@ -160,6 +163,7 @@ function EmployeeData(props) {
               name={"e-mail"}
             ></TextForm>
             <TextForm
+            sign={employee.Employee.age.sign}
               data={employee.Employee.employeeID}
               message={employee.Employee.age.message}
               formValidationFunction={checkEmployeeAge}
@@ -167,6 +171,7 @@ function EmployeeData(props) {
               name={"age"}
             ></TextForm>
             <JobTitleForm
+            sign={employee.Employee.jobTitle.sign}
               data={employee.Employee.employeeID}
               label={"job-title*"}
               message={employee.Employee.jobTitle.message}

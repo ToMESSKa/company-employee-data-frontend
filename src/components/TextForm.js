@@ -20,7 +20,7 @@ function TextForm(props) {
           <input data={props.data} type="text" name={props.name} />
         </div>
       </div>
-      <ValidationMessage message={props.message}></ValidationMessage>
+      <ValidationMessage sign={props.sign} message={props.message}></ValidationMessage>
     </div>
   );
 }

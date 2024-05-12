@@ -15,9 +15,22 @@ function App() {
   });
   const [results, setResults] = useState(false);
 
-  const submitData = (input) => {
-    setResults(true);
-    console.log(companyInformation);
+  function* iterator(obj) {
+    for (let [key, value] of Object.entries(obj)) {
+      if (Object(value) !== value) yield [obj, key, value];
+      else yield* iterator(value);
+    }
+  }
+
+  const submitData = () => {
+    const information = employeeInformation.map((employee) => {
+      for (let [obj, key, value] of iterator(employee)) {
+        if (key === "message" && value === "") obj[key] = "Field cannot be empty";
+      }
+      return employee;
+    });
+    console.log(information);
+    setEmployeeInformation(information);
   };
 
   return (

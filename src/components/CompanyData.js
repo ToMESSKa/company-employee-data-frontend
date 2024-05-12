@@ -57,7 +57,7 @@ function CompanyData(props) {
       let employee = {
         Employee: {
           employeeID: id,
-          name: { inputValue: "", message: "required" },
+          name: { inputValue: "", message: "", sign: "" },
           age: { inputValue: "", message: "" },
           email: { inputValue: "", message: "" },
           jobTitle: { inputValue: "", message: "" },
@@ -116,7 +116,11 @@ function CompanyData(props) {
         name={"number-of-employees"}
       ></NumberOfEmployeesForm>
       <TextForm label={"description"} name={"description"}></TextForm>
-      <button onClick={(e) => props.submitData()}>Click</button>
+      <div className="submit-button-container">
+        <button className="button" onClick={(e) => props.submitData()}>
+          Submit
+        </button>
+      </div>
     </div>
   );
 }
