@@ -8,6 +8,7 @@ function CompanyData(props) {
   const [companyNameMessage, setcompanyNameMessage] = useState();
   const [emailMessage, setEmailMessage] = useState();
   const [numberOfEmployeesMessage, setnumberOfEmployeesMessage] = useState();
+  const [numberOfEmployees, setnumberOfEmployees] = useState(0);
 
   const [file, setFile] = useState();
 
@@ -43,6 +44,10 @@ function CompanyData(props) {
       : setEmailMessage("Must be valid e-mail address");
   };
 
+  const printN = (input) => {
+    console.log(props.employeeInformation);
+  };
+
   const checkNumberOfEmployees = (input) => {
     if (
       input !== "" &&
@@ -50,28 +55,52 @@ function CompanyData(props) {
       parseInt(input) >= 1 &&
       parseInt(input) <= 100
     ) {
-      createEmployeeValidationMessages(parseInt(input));
+      createEmployeeInformation(parseInt(input));
       setnumberOfEmployeesMessage("OK");
     } else {
       setnumberOfEmployeesMessage("Must be between 1 and 100");
     }
   };
 
-  const createEmployeeValidationMessages = (input) => {
-    let createEmployeeValidationMessages = [];
-    for (let i = 1; i <= input; i++) {
+  const addNewEmployees = (employeesToCreate, id) => {
+    let employeeInformation = [...props.employeeInformation];
+    for (let i = 1; i <= employeesToCreate; i++) {
       let employee = {
         Employee: {
-          employeeID: i,
+          employeeID: id,
           name: { inputValue: "", message: "" },
           age: { inputValue: "", message: "" },
           email: { inputValue: "", message: "" },
           cv: { inputValue: "", message: "" },
         },
       };
-      createEmployeeValidationMessages.push(employee);
+      employeeInformation.push(employee);
+      id = id + 1;
     }
-    props.setEmployeeValidationMessages(createEmployeeValidationMessages);
+    console.log(employeeInformation);
+    props.setEmployeeInformation(employeeInformation);
+  };
+
+  const createEmployeeInformation = (input) => {
+    let employeesToCreate = 0;
+    let id = 1;
+    if (numberOfEmployees === 0) {
+      employeesToCreate = input;
+      setnumberOfEmployees(employeesToCreate);
+      addNewEmployees(employeesToCreate, id);
+    } else if (input > numberOfEmployees) {
+      employeesToCreate = input - numberOfEmployees;
+      id = numberOfEmployees + 1;
+      setnumberOfEmployees(input);
+      addNewEmployees(employeesToCreate, id);
+    } else {
+      let employeesToRemove = numberOfEmployees - input;
+      setnumberOfEmployees(input);
+      for (let i = 1; i <= employeesToRemove; i++) {
+        props.employeeInformation.pop();
+        props.setEmployeeInformation(props.employeeInformation);
+      }
+    }
   };
 
   return (
@@ -96,6 +125,7 @@ function CompanyData(props) {
         name={"number-of-employees"}
       ></NumberOfEmployeesForm>
       <TextForm label={"description"} name={"description"}></TextForm>
+      <button onClick={(e) => printN()}>Click</button>
     </div>
   );
 }

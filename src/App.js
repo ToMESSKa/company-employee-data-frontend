@@ -5,19 +5,19 @@ import React, { useState } from "react";
 
 function App() {
   const [numberOfEmployees, setnumberOfEmployees] = useState(0);
-  const [employeeValidationMessages, setEmployeeValidationMessages] = useState([]);
+  const [employeeInformation, setEmployeeInformation] = useState([]);
 
   return (
     <div className="App">
       <CompanyData
-        setEmployeeValidationMessages={setEmployeeValidationMessages}
-        employeeValidationMessages={employeeValidationMessages}
+        setEmployeeInformation={setEmployeeInformation}
+        employeeInformation={employeeInformation}
         numberOfEmployees={numberOfEmployees}
         setnumberOfEmployees={setnumberOfEmployees}
       ></CompanyData>
       <EmployeeData
-        setEmployeeValidationMessages={setEmployeeValidationMessages}
-        employeeValidationMessages={employeeValidationMessages}
+        setEmployeeInformation={setEmployeeInformation}
+        employeeInformation={employeeInformation}
       ></EmployeeData>
     </div>
   );
