@@ -12,40 +12,26 @@ function CompanyData(props) {
 
   const [file, setFile] = useState();
 
-  function handleSubmit(event) {
-    // event.preventDefault()
-    // const url = 'http://localhost:3000/uploadfile';
-    // const formData = new FormData();
-    // formData.append('file', file);
-    // formData.append('fileName', file.name);
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data',
-    //   },
-    // };
-    // axios.post(url, formData, config).then((response) => {
-    //   console.log(response.data);
-    // });
-  }
-
   const checkCompanyName = (input) => {
-    input === ""
+    input.trim() === ""
       ? setcompanyNameMessage("Field cannot be empty")
       : setcompanyNameMessage("OK");
+    const newCompany = { ...props.companyInformation };
+    newCompany.name = input;
+    props.setCompanyInformation(newCompany);
   };
 
   const checkEmail = (input) => {
-    input
+    !input
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
-      ? setEmailMessage("OK")
-      : setEmailMessage("Must be valid e-mail address");
-  };
-
-  const printN = (input) => {
-    console.log(props.employeeInformation);
+      ? setEmailMessage("Must be valid e-mail address")
+      : setEmailMessage("OK");
+    const newCompany = { ...props.companyInformation };
+    newCompany.email = input;
+    props.setCompanyInformation(newCompany);
   };
 
   const checkNumberOfEmployees = (input) => {
@@ -57,6 +43,9 @@ function CompanyData(props) {
     ) {
       createEmployeeInformation(parseInt(input));
       setnumberOfEmployeesMessage("OK");
+      const newCompany = { ...props.companyInformation };
+      newCompany.numberOfEmployees = parseInt(input);
+      props.setCompanyInformation(newCompany);
     } else {
       setnumberOfEmployeesMessage("Must be between 1 and 100");
     }
@@ -68,9 +57,10 @@ function CompanyData(props) {
       let employee = {
         Employee: {
           employeeID: id,
-          name: { inputValue: "", message: "" },
+          name: { inputValue: "", message: "required" },
           age: { inputValue: "", message: "" },
           email: { inputValue: "", message: "" },
+          jobTitle: { inputValue: "", message: "" },
           cv: { inputValue: "", message: "" },
         },
       };
@@ -126,7 +116,7 @@ function CompanyData(props) {
         name={"number-of-employees"}
       ></NumberOfEmployeesForm>
       <TextForm label={"description"} name={"description"}></TextForm>
-      <button onClick={(e) => printN()}>Click</button>
+      <button onClick={(e) => props.submitData()}>Click</button>
     </div>
   );
 }

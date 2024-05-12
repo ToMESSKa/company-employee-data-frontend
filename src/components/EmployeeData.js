@@ -7,6 +7,30 @@ import CVUpload from "./CVUpload";
 function EmployeeData(props) {
   const [file, setFile] = useState();
 
+  const checkJobTitle = (input, id) => {
+    let jobTitleMessage = "";
+    input !== ""
+      ? (jobTitleMessage = "OK")
+      : (jobTitleMessage = "A job title must be selected");
+    const employeeInformation = props.employeeInformation.map((employee) => {
+      if (employee.Employee.employeeID === id) {
+        return {
+          ...employee,
+          Employee: {
+            ...employee.Employee,
+            jobTitle: {
+              ...employee.Employee.jobTitle,
+              message: jobTitleMessage,
+              inputValue: input,
+            },
+          },
+        };
+      }
+      return employee;
+    });
+    props.setEmployeeInformation(employeeInformation);
+  };
+
   const checkCV = (file, id) => {
     let fileformat = file["name"].split(".").pop();
     let cvMessage = "";
@@ -92,6 +116,7 @@ function EmployeeData(props) {
 
   const checkEmployeeAge = (input, id) => {
     let ageMessage = 0;
+    isNaN(input) ? (ageMessage = "Must be a number") :
     input >= 18
       ? (ageMessage = "OK")
       : (ageMessage = "Must be over 18 years old");
@@ -124,24 +149,29 @@ function EmployeeData(props) {
               message={employee.Employee.name.message}
               data={employee.Employee.employeeID}
               formValidationFunction={checkEmployeeName}
-              label={"name"}
+              label={"name*"}
               name={"name"}
             ></TextForm>
             <TextForm
               data={employee.Employee.employeeID}
               message={employee.Employee.email.message}
               formValidationFunction={checkEmployeeEmail}
-              label={"e-mail"}
+              label={"e-mail*"}
               name={"e-mail"}
             ></TextForm>
             <TextForm
               data={employee.Employee.employeeID}
               message={employee.Employee.age.message}
               formValidationFunction={checkEmployeeAge}
-              label={"age"}
+              label={"age*"}
               name={"age"}
             ></TextForm>
-            <JobTitleForm label={"job-title"}> </JobTitleForm>
+            <JobTitleForm
+              data={employee.Employee.employeeID}
+              label={"job-title*"}
+              message={employee.Employee.jobTitle.message}
+              formValidationFunction={checkJobTitle}
+            ></JobTitleForm>
           </div>
           <div className="employee-cv">
             <CVUpload

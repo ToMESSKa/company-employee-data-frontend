@@ -76,3 +76,26 @@ input[type="file"] {
   padding: 6px 12px;
   cursor: pointer;
 }
+
+section {
+  display: table;
+  width: 100%;
+  margin: 100px;
+}
+
+section > * {
+  display: table-row;
+}
+
+section .col {
+  display: table-cell;
+}
+
+.result-title {
+  font-size: large;
+  display: flex;
+  padding: 50px;
+  flex-direction: column;
+  padding-right: 120px;
+
+}
