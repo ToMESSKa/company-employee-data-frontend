@@ -75,7 +75,7 @@ input[type="file"] {
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  background-color: #04AA6D; 
+  background-color: #04aa6d;
   border: none;
   color: white;
 }
@@ -100,7 +100,6 @@ section .col {
   padding: 50px;
   flex-direction: column;
   padding-right: 120px;
-
 }
 
 .submit-button-container {
@@ -108,15 +107,24 @@ section .col {
   padding-top: 50px;
   padding-left: 200px;
   align-items: center;
-
 }
 
 .button {
-  background-color: #04AA6D; 
+  background-color: #04aa6d;
   border: none;
   color: white;
   padding: 15px 32px;
   text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.cv-button {
+  height: 25px;
+  background-color: #04aa6d;
+  border: none;
+  color: white;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
