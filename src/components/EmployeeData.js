@@ -5,8 +5,6 @@ import React, { useState } from "react";
 import CVUpload from "./CVUpload";
 
 function EmployeeData(props) {
-
-
   const checkJobTitle = (input, id) => {
     let jobTitleMessage = "";
     input !== ""
@@ -34,13 +32,17 @@ function EmployeeData(props) {
   const checkCV = (file, id) => {
     let fileformat = file["name"].split(".").pop();
     let cvMessage = "";
-    console.log(file)
+    console.log(file);
     fileformat === "pdf" ? (cvMessage = "OK") : (cvMessage = "Must be a pdf!");
     const employeeInformation = props.employeeInformation.map((employee) => {
       if (employee.Employee.employeeID === id) {
-        let newCvs = [...props.cvs]
-        newCvs.push(file)
-        props.setCVs(newCvs)
+        if (cvMessage === "OK") {
+          let newFile = new File([file], "cv" + id.toString() + ".pdf");
+          const newCvs = props.cvs.filter((cv) => cv.name !== newFile.name);
+          console.log(newCvs)
+          newCvs.push(newFile);
+          props.setCVs(newCvs);
+        }
         return {
           ...employee,
           Employee: {
@@ -48,7 +50,6 @@ function EmployeeData(props) {
             cv: {
               ...employee.Employee.cv,
               message: cvMessage,
-              inputValue: file,
             },
           },
         };
@@ -120,8 +121,9 @@ function EmployeeData(props) {
 
   const checkEmployeeAge = (input, id) => {
     let ageMessage = 0;
-    isNaN(input) ? (ageMessage = "Must be a number"):
-    input >= 18
+    isNaN(input)
+      ? (ageMessage = "Must be a number")
+      : input >= 18
       ? (ageMessage = "OK")
       : (ageMessage = "Must be over 18 years old");
     const employeeInformation = props.employeeInformation.map((employee) => {
@@ -158,7 +160,7 @@ function EmployeeData(props) {
               name={"name"}
             ></TextForm>
             <TextForm
-            sign={employee.Employee.email.sign}
+              sign={employee.Employee.email.sign}
               data={employee.Employee.employeeID}
               message={employee.Employee.email.message}
               formValidationFunction={checkEmployeeEmail}
@@ -166,7 +168,7 @@ function EmployeeData(props) {
               name={"e-mail"}
             ></TextForm>
             <TextForm
-            sign={employee.Employee.age.sign}
+              sign={employee.Employee.age.sign}
               data={employee.Employee.employeeID}
               message={employee.Employee.age.message}
               formValidationFunction={checkEmployeeAge}
@@ -174,7 +176,7 @@ function EmployeeData(props) {
               name={"age"}
             ></TextForm>
             <JobTitleForm
-            sign={employee.Employee.jobTitle.sign}
+              sign={employee.Employee.jobTitle.sign}
               data={employee.Employee.employeeID}
               label={"job-title*"}
               message={employee.Employee.jobTitle.message}

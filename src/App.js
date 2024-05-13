@@ -27,15 +27,14 @@ function App() {
   }
 
   const submitData = () => {
-    // if (
-    //   checkInformation(employeeInformation, setEmployeeInformation) &&
-    //   checkInformation(companyInformation, setCompanyInformation)
-    // ) {
-    //   setResults(true);
-    // }
-    // onFileDownload();
-    for (let item of cvs) {
-      onFileUpload(item);
+    if (
+      checkInformation(employeeInformation, setEmployeeInformation) &&
+      checkInformation(companyInformation, setCompanyInformation)
+    ) {
+      for (let item of cvs) {
+        uploadFile(item);
+      }
+      setResults(true);
     }
   };
 
@@ -43,10 +42,12 @@ function App() {
     let noError = true;
     const information = info.map((employee) => {
       for (let [obj, key, value] of iterator(employee)) {
-        if (key === "message" && value === "" && obj.req === true)
+        if (key === "message" && value === "" && obj.req === true) {
           obj[key] = "Field cannot be empty";
-        else if (key === "message" && value !== "OK" && obj.req === true)
           noError = false;
+        } else if (key === "message" && value !== "OK" && obj.req === true){
+          noError = false;
+        }
       }
       return employee;
     });
@@ -55,12 +56,12 @@ function App() {
     return noError;
   };
 
-  const onFileUpload = (item, employeeID = 1) => {
-    console.log(item);
-    var new_file = new File([item], "cv" + employeeID.toString() + ".pdf");
-    console.log(new_file);
+  const uploadFile = (item) => {
+    // console.log(item);
+    // var new_file = new File([item], "cv" + employeeID.toString() + ".pdf");
+    // console.log(new_file);
     const formData = new FormData();
-    formData.append("myFile", new_file);
+    formData.append("myFile", item);
     axios.post("http://localhost:3000/api/uploadfile", formData, {
       headers: {
         "content-type": "multipart/form-data",
@@ -68,7 +69,7 @@ function App() {
     });
   };
 
-  const onFileDownload = (employeeID = 1) => {
+  const downloadFile = (employeeID) => {
     let url = "http://localhost:3000/resume/" + employeeID;
     axios.get(url, { responseType: "blob" }).then((res) => {
       let alink = document.createElement("a");
@@ -83,6 +84,7 @@ function App() {
       {results ? (
         <div className="App">
           <ResultTable
+            downloadFile={downloadFile}
             companyInformation={companyInformation}
             employeeInformation={employeeInformation}
           ></ResultTable>
@@ -106,7 +108,6 @@ function App() {
           ></EmployeeData>
         </div>
       )}
-      <button onClick={(e) => onFileDownload()}>DOWLOAD</button>
     </div>
   );
 }

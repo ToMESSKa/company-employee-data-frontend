@@ -7,10 +7,10 @@ function ValidationMessage(props) {
   useEffect(() => {
     if (props.message === "OK") {
       setSign(<span>&#9989;</span>);
-    }else{
-      setSign("")
+    } else {
+      setSign("");
     }
-  },[props.message]);
+  }, [props.message]);
 
   function cellColor(status) {
     if (status !== "OK") {

@@ -54,7 +54,7 @@ function CompanyData(props) {
       newCompany[0].numberOfEmployees.message = "OK";
       props.setCompanyInformation(newCompany);
     } else {
-      setnumberOfEmployeesMessage("Must be between 1 and 100");
+      setnumberOfEmployeesMessage("Must be a number between 1 and 100");
     }
   };
 

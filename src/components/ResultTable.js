@@ -15,17 +15,23 @@ function ResultTable(props) {
           <div className="row">company description</div>
         </div>
         <div className="col">
-          <div className="row">{props.companyInformation.name}</div>
-          <div className="row">{props.companyInformation.email}</div>
           <div className="row">
-            {props.companyInformation.numberOfEmployees}
+            {props.companyInformation[0].name.inputValue}
           </div>
-          <div className="row">{props.companyInformation.description}</div>
+          <div className="row">
+            {props.companyInformation[0].email.inputValue}
+          </div>
+          <div className="row">
+            {props.companyInformation[0].numberOfEmployees.inputValue}
+          </div>
+          <div className="row">
+            {props.companyInformation[0].description.inputValue}
+          </div>
         </div>
       </section>
       <section>
         <header>
-        <div className="col">#</div>
+          <div className="col">#</div>
           <div className="col">employee name</div>
           <div className="col">e-mail</div>
           <div className="col">age</div>
@@ -34,12 +40,24 @@ function ResultTable(props) {
         </header>
         {props.employeeInformation.map((employee, i) => (
           <div className="row">
-            <div className="col">{i +1 + "."}</div>
+            <div className="col">{i + 1 + "."}</div>
             <div className="col">{employee.Employee.name.inputValue}</div>
             <div className="col">{employee.Employee.email.inputValue}</div>
             <div className="col">{employee.Employee.age.inputValue}</div>
             <div className="col">{employee.Employee.jobTitle.inputValue}</div>
-            <div className="col">{props.cv}</div>
+            <div className="col">
+              {employee.Employee.cv.message === "OK" ? (
+                <button
+                  onClick={(e) =>
+                    props.downloadFile(employee.Employee.employeeID)
+                  }
+                >
+                  download CV
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         ))}
       </section>
