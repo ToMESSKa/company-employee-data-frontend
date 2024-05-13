@@ -14,24 +14,30 @@ function CompanyData(props) {
   const [file, setFile] = useState();
 
   const checkCompanyName = (input) => {
-    input.trim() === ""
-      ? setcompanyNameMessage("Field cannot be empty")
-      : setcompanyNameMessage("OK");
-    const newCompany = { ...props.companyInformation };
-    newCompany.name = input;
+    const newCompany = [...props.companyInformation];
+    newCompany[0].name.inputValue = input;
+    if (input.trim() === "") {
+      newCompany[0].name.message = "Field cannot be empty";
+    } else {
+      newCompany[0].name.message = "OK";
+    }
     props.setCompanyInformation(newCompany);
   };
 
   const checkEmail = (input) => {
-    !input
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-      ? setEmailMessage("Must be valid e-mail address")
-      : setEmailMessage("OK");
-    const newCompany = { ...props.companyInformation };
-    newCompany.email = input;
+    const newCompany = [...props.companyInformation];
+    newCompany[0].email.inputValue = input;
+    if (
+      !input
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      newCompany[0].email.message = "Must be valid e-mail address";
+    } else {
+      newCompany[0].email.message = "OK";
+    }
     props.setCompanyInformation(newCompany);
   };
 
@@ -43,9 +49,9 @@ function CompanyData(props) {
       parseInt(input) <= 100
     ) {
       createEmployeeInformation(parseInt(input));
-      setnumberOfEmployeesMessage("OK");
-      const newCompany = { ...props.companyInformation };
-      newCompany.numberOfEmployees = parseInt(input);
+      const newCompany = [...props.companyInformation];
+      newCompany[0].numberOfEmployees.inputValue = parseInt(input);
+      newCompany[0].numberOfEmployees.message = "OK";
       props.setCompanyInformation(newCompany);
     } else {
       setnumberOfEmployeesMessage("Must be between 1 and 100");
@@ -62,7 +68,7 @@ function CompanyData(props) {
           age: { inputValue: "", message: "", req: true },
           email: { inputValue: "", message: "", req: true },
           jobTitle: { inputValue: "", message: "", req: true },
-          cv: { inputValue: "", message: "OK" },
+          cv: { inputValue: "", message: "", req: false },
         },
       };
       employeeInformation.push(employee);
@@ -95,46 +101,23 @@ function CompanyData(props) {
     }
   };
 
-  const onFileUpload = (e) => {
-    console.log("hi");
-    const formData = new FormData();
-    formData.append("myFile", e.target.files[0]);
-
-    axios.post("http://localhost:3000/api/uploadfile", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-    }); //I need to change this line
-  };
-
-  const onFileDownload = (e) => {
-    axios
-      .get("http://localhost:3000/resume", { responseType: "blob" })
-      .then((res) => {
-        let alink = document.createElement("a");
-        alink.href = URL.createObjectURL(res.data);
-        alink.download = "SamplePDF.pdf";
-        alink.click();
-      });
-  };
-
   return (
     <div className="data-section">
       <div className="data-section-title">Company data:</div>
       <TextForm
-        message={companyNameMessage}
+        message={props.companyInformation[0].name.message}
         formValidationFunction={checkCompanyName}
         label={"name"}
         name={"name"}
       ></TextForm>
       <TextForm
-        message={emailMessage}
+        message={props.companyInformation[0].email.message}
         formValidationFunction={checkEmail}
         label={"e-mail"}
         name={"e-mail"}
       ></TextForm>
       <NumberOfEmployeesForm
-        message={numberOfEmployeesMessage}
+        message={props.companyInformation[0].numberOfEmployees.message}
         formValidationFunction={checkNumberOfEmployees}
         label={"number of employees"}
         name={"number-of-employees"}
@@ -143,25 +126,6 @@ function CompanyData(props) {
       <div className="submit-button-container">
         <button className="button" onClick={(e) => props.submitData()}>
           Submit
-        </button>
-      </div>
-      <div>
-        <label for="myfile">Select a file:</label>
-        <input
-          onChange={(e) => onFileUpload(e)}
-          type="file"
-          id="myfile"
-          name="myfile"
-        ></input>
-      </div>
-      <div>
-        <button
-          type="button"
-          onClick={() => {
-            onFileDownload();
-          }}
-        >
-          Download
         </button>
       </div>
     </div>

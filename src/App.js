@@ -3,16 +3,19 @@ import CompanyData from "./components/CompanyData";
 import EmployeeData from "./components/EmployeeData";
 import React, { useState } from "react";
 import ResultTable from "./components/ResultTable";
+import axios from "axios";
 
 function App() {
   const [numberOfEmployees, setnumberOfEmployees] = useState(0);
   const [employeeInformation, setEmployeeInformation] = useState([]);
-  const [companyInformation, setCompanyInformation] = useState({
-    name: "",
-    email: "",
-    numberOfEmployees: "",
-    description: "",
-  });
+  const [companyInformation, setCompanyInformation] = useState([
+    {
+      name: { inputValue: "", message: "", req: true },
+      email: { inputValue: "", message: "", req: true },
+      numberOfEmployees: { inputValue: "", message: "", req: true },
+      description: { inputValue: "", message: "", req: false },
+    },
+  ]);
   const [results, setResults] = useState(false);
   const [file, setFile] = useState();
 
@@ -24,22 +27,50 @@ function App() {
   }
 
   const submitData = () => {
+    if (
+      checkInformation(employeeInformation, setEmployeeInformation) &&
+      checkInformation(companyInformation, setCompanyInformation)
+    ) {
+      setResults(true)
+    }
+  };
+
+  const checkInformation = (info, setInfo) => {
     let noError = true;
-    const information = employeeInformation.map((employee) => {
+    const information = info.map((employee) => {
       for (let [obj, key, value] of iterator(employee)) {
-        if (key === "message" && value === "")
+        if (key === "message" && value === "" && obj.req === true)
           obj[key] = "Field cannot be empty";
-        else if (key === "message" && value !== "OK") noError = false;
+        else if (key === "message" && value !== "OK" && obj.req === true)
+          noError = false;
       }
       return employee;
     });
     console.log(information);
-    if (noError) {
-      console.log("success");
-      setResults(true);
-    }
-    console.log(information);
-    setEmployeeInformation(information);
+    setInfo(information);
+    return noError;
+  };
+
+  const onFileUpload = (e) => {
+    console.log("hi");
+    const formData = new FormData();
+    formData.append("myFile", e.target.files[0]);
+    axios.post("http://localhost:3000/api/uploadfile", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
+  };
+
+  const onFileDownload = (e) => {
+    axios
+      .get("http://localhost:3000/resume", { responseType: "blob" })
+      .then((res) => {
+        let alink = document.createElement("a");
+        alink.href = URL.createObjectURL(res.data);
+        alink.download = "SamplePDF.pdf";
+        alink.click();
+      });
   };
 
   return (
