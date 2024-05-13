@@ -36,7 +36,7 @@ function App() {
       for (let item of cvs) {
         uploadFile(item);
       }
-      employeeInformation.push(companyInformation)
+      employeeInformation.push(companyInformation);
       let jsonString = JSON.stringify(employeeInformation);
       setResults(true);
     }
@@ -44,8 +44,8 @@ function App() {
 
   const checkInformation = (info, setInfo) => {
     let noError = true;
-    const information = info.map((employee) => {
-      for (let [obj, key, value] of iterator(employee)) {
+    const information = info.map((object) => {
+      for (let [obj, key, value] of iterator(object)) {
         if (key === "message" && value === "" && obj.req === true) {
           obj[key] = "Field cannot be empty";
           noError = false;
@@ -53,7 +53,7 @@ function App() {
           noError = false;
         }
       }
-      return employee;
+      return object;
     });
     setInfo(information);
     return noError;
