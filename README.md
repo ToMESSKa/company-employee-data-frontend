@@ -11,7 +11,7 @@ Every time the user modifies an input, the corresponding object is updated and i
 
 The values are updated using the map function and the spread operator.
 
-The user can enter the number of required employees and corresponding forms is created for each employee.
+The user can enter the number of required employees and corresponding forms are created for each employee.
 
 If the user increases the number of required employees, the entered data remains intact and new forms are created.
 
