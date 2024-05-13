@@ -33,8 +33,7 @@ function App() {
     // ) {
     //   setResults(true);
     // }
-
-    console.log(cvs);
+    // onFileDownload();
     for (let item of cvs) {
       onFileUpload(item);
     }
@@ -56,10 +55,12 @@ function App() {
     return noError;
   };
 
-  const onFileUpload = (item) => {
-    console.log("hi");
+  const onFileUpload = (item, employeeID = 1) => {
+    console.log(item);
+    var new_file = new File([item], "cv" + employeeID.toString() + ".pdf");
+    console.log(new_file);
     const formData = new FormData();
-    formData.append("myFile", item);
+    formData.append("myFile", new_file);
     axios.post("http://localhost:3000/api/uploadfile", formData, {
       headers: {
         "content-type": "multipart/form-data",
@@ -67,15 +68,14 @@ function App() {
     });
   };
 
-  const onFileDownload = (e) => {
-    axios
-      .get("http://localhost:3000/resume", { responseType: "blob" })
-      .then((res) => {
-        let alink = document.createElement("a");
-        alink.href = URL.createObjectURL(res.data);
-        alink.download = "SamplePDF.pdf";
-        alink.click();
-      });
+  const onFileDownload = (employeeID = 1) => {
+    let url = "http://localhost:3000/resume/" + employeeID;
+    axios.get(url, { responseType: "blob" }).then((res) => {
+      let alink = document.createElement("a");
+      alink.href = URL.createObjectURL(res.data);
+      alink.download = "cv" + employeeID.toString() + ".pdf";
+      alink.click();
+    });
   };
 
   return (
@@ -106,6 +106,7 @@ function App() {
           ></EmployeeData>
         </div>
       )}
+      <button onClick={(e) => onFileDownload()}>DOWLOAD</button>
     </div>
   );
 }

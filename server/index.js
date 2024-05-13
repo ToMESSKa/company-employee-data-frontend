@@ -19,15 +19,16 @@ app.use(express.static(__dirname + "/../build"));
 
 // route for file upload
 app.post("/api/uploadfile", upload.single("myFile"), (req, res, next) => {
+  console.log(req.params);
   console.log(req.file.originalname + " file successfully uploaded !!");
   res.sendStatus(200);
 });
 
-app.get("/resume", (req, res) => {
+app.get("/resume/:name", (req, res) => {
   const options = {
     root: path.join("./build/files"),
   };
-  const fileName = "resume.pdf";
+  const fileName = "cv" + req.params.name + ".pdf";
   res.sendFile(fileName, options, function (err) {
     if (err) {
       console.error("Error sending file:", err);

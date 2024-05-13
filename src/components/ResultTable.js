@@ -39,7 +39,7 @@ function ResultTable(props) {
             <div className="col">{employee.Employee.email.inputValue}</div>
             <div className="col">{employee.Employee.age.inputValue}</div>
             <div className="col">{employee.Employee.jobTitle.inputValue}</div>
-            <div className="col">{props.file}</div>
+            <div className="col">{props.cv}</div>
           </div>
         ))}
       </section>
