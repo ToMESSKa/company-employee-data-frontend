@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import CVUpload from "./CVUpload";
 
 function EmployeeData(props) {
-  
+
   const checkJobTitle = (input, id) => {
     let jobTitleMessage = "";
     input !== ""
@@ -33,14 +33,12 @@ function EmployeeData(props) {
   const checkCV = (file, id) => {
     let fileformat = file["name"].split(".").pop();
     let cvMessage = "";
-    console.log(file);
     fileformat === "pdf" ? (cvMessage = "OK") : (cvMessage = "Must be a pdf!");
     const employeeInformation = props.employeeInformation.map((employee) => {
       if (employee.Employee.employeeID === id) {
         if (cvMessage === "OK") {
           let newFile = new File([file], "cv" + id.toString() + ".pdf");
           const newCvs = props.cvs.filter((cv) => cv.name !== newFile.name);
-          console.log(newCvs)
           newCvs.push(newFile);
           props.setCVs(newCvs);
         }
@@ -70,7 +68,6 @@ function EmployeeData(props) {
             name: {
               ...employee.Employee.name,
               message: "Field cannot be empty",
-              sign: "ERROR",
             },
           },
         };

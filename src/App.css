@@ -121,7 +121,3 @@ section .col {
   display: inline-block;
   font-size: 16px;
 }
-/* 
-span::after {
-  content: "\2705";
-} */

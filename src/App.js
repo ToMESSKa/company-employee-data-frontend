@@ -38,7 +38,6 @@ function App() {
       }
       employeeInformation.push(companyInformation)
       let jsonString = JSON.stringify(employeeInformation);
-      console.log(jsonString);
       setResults(true);
     }
   };
@@ -56,7 +55,6 @@ function App() {
       }
       return employee;
     });
-    console.log(information);
     setInfo(information);
     return noError;
   };

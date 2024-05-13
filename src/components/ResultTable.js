@@ -48,6 +48,7 @@ function ResultTable(props) {
             <div className="col">
               {employee.Employee.cv.message === "OK" ? (
                 <button
+                  className="button"
                   onClick={(e) =>
                     props.downloadFile(employee.Employee.employeeID)
                   }

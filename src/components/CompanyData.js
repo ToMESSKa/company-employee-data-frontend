@@ -6,12 +6,7 @@ import axios from "axios";
 import download from "downloadjs";
 
 function CompanyData(props) {
-  const [companyNameMessage, setcompanyNameMessage] = useState();
-  const [emailMessage, setEmailMessage] = useState();
-  const [numberOfEmployeesMessage, setnumberOfEmployeesMessage] = useState();
   const [numberOfEmployees, setnumberOfEmployees] = useState(0);
-
-  const [file, setFile] = useState();
 
   const checkCompanyName = (input) => {
     const newCompany = [...props.companyInformation];
@@ -42,6 +37,7 @@ function CompanyData(props) {
   };
 
   const checkNumberOfEmployees = (input) => {
+    const newCompany = [...props.companyInformation];
     if (
       input !== "" &&
       !isNaN(input) &&
@@ -49,13 +45,14 @@ function CompanyData(props) {
       parseInt(input) <= 100
     ) {
       createEmployeeInformation(parseInt(input));
-      const newCompany = [...props.companyInformation];
       newCompany[0].numberOfEmployees.inputValue = parseInt(input);
       newCompany[0].numberOfEmployees.message = "OK";
-      props.setCompanyInformation(newCompany);
     } else {
-      setnumberOfEmployeesMessage("Must be a number between 1 and 100");
+      createEmployeeInformation(parseInt(input));
+      newCompany[0].numberOfEmployees.message =
+        "Must be a number between 1 and 100";
     }
+    props.setCompanyInformation(newCompany);
   };
 
   const addNewEmployees = (employeesToCreate, id) => {
@@ -74,7 +71,6 @@ function CompanyData(props) {
       employeeInformation.push(employee);
       id = id + 1;
     }
-    console.log(employeeInformation);
     props.setEmployeeInformation(employeeInformation);
   };
 
@@ -98,10 +94,8 @@ function CompanyData(props) {
         let removedEmployee = employeeInformation.pop();
         let fileName =
           "cv" + removedEmployee.Employee.employeeID.toString() + ".pdf";
-        console.log(fileName);
         const newCvs = props.cvs.filter((cv) => cv.name !== fileName);
         props.setCVs(newCvs);
-        console.log(newCvs)
         props.setEmployeeInformation(employeeInformation);
       }
     }
