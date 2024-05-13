@@ -18,6 +18,7 @@ If the user increases the number of required employees, the entered data remains
 If the user decreases the number of required employees, the unnecessary forms and corresponding data is deleted starting from the last employee, while the rest of the data remains intact starting from the first employee.
 
 If alll the required fields are validated, the result is displayed and a JSON is created.
+Data is validated using a recursive iterator before submission.
 
 The user is able to upload CV in a pdf format. The files are stored in an array (and deleted as the number of employees is modified) and after the successful submission, the files are uploaded to an Express server using Axios and download links are created on the results page.
 
