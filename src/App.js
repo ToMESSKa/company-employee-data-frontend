@@ -35,6 +35,7 @@ function App() {
         uploadFile(item);
       }
       setResults(true);
+      console.log(cvs)
     }
   };
 
@@ -99,6 +100,8 @@ function App() {
             numberOfEmployees={numberOfEmployees}
             setnumberOfEmployees={setnumberOfEmployees}
             submitData={submitData}
+            cvs={cvs}
+            setCVs={setCVs}
           ></CompanyData>
           <EmployeeData
             cvs={cvs}

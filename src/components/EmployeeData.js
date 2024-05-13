@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import CVUpload from "./CVUpload";
 
 function EmployeeData(props) {
+  
   const checkJobTitle = (input, id) => {
     let jobTitleMessage = "";
     input !== ""

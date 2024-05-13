@@ -95,7 +95,13 @@ function CompanyData(props) {
       let employeeInformation = [...props.employeeInformation];
       setnumberOfEmployees(input);
       for (let i = 1; i <= employeesToRemove; i++) {
-        employeeInformation.pop();
+        let removedEmployee = employeeInformation.pop();
+        let fileName =
+          "cv" + removedEmployee.Employee.employeeID.toString() + ".pdf";
+        console.log(fileName);
+        const newCvs = props.cvs.filter((cv) => cv.name !== fileName);
+        props.setCVs(newCvs);
+        console.log(newCvs)
         props.setEmployeeInformation(employeeInformation);
       }
     }
