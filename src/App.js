@@ -36,6 +36,9 @@ function App() {
       for (let item of cvs) {
         uploadFile(item);
       }
+      employeeInformation.push(companyInformation)
+      let jsonString = JSON.stringify(employeeInformation);
+      console.log(jsonString);
       setResults(true);
     }
   };
