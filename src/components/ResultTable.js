@@ -25,19 +25,21 @@ function ResultTable(props) {
       </section>
       <section>
         <header>
+        <div className="col">#</div>
           <div className="col">employee name</div>
           <div className="col">e-mail</div>
           <div className="col">age</div>
           <div className="col">job title</div>
           <div className="col">CV</div>
         </header>
-        {props.employeeInformation.map((employee) => (
+        {props.employeeInformation.map((employee, i) => (
           <div className="row">
+            <div className="col">{i +1 + "."}</div>
             <div className="col">{employee.Employee.name.inputValue}</div>
             <div className="col">{employee.Employee.email.inputValue}</div>
             <div className="col">{employee.Employee.age.inputValue}</div>
             <div className="col">{employee.Employee.jobTitle.inputValue}</div>
-            <div className="col">CV</div>
+            <div className="col">{props.file}</div>
           </div>
         ))}
       </section>

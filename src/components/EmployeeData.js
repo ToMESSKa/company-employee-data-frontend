@@ -34,10 +34,11 @@ function EmployeeData(props) {
   const checkCV = (file, id) => {
     let fileformat = file["name"].split(".").pop();
     let cvMessage = "";
+    console.log(file)
     fileformat === "pdf" ? (cvMessage = "OK") : (cvMessage = "Must be a pdf!");
     const employeeInformation = props.employeeInformation.map((employee) => {
       if (employee.Employee.employeeID === id) {
-        setFile(file);
+        props.setFile(file);
         return {
           ...employee,
           Employee: {

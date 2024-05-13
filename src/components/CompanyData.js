@@ -3,6 +3,7 @@ import "../App.css";
 import NumberOfEmployeesForm from "./NumberOfEmployeesForm";
 import React, { useState } from "react";
 import axios from "axios";
+import download from "downloadjs";
 
 function CompanyData(props) {
   const [companyNameMessage, setcompanyNameMessage] = useState();
@@ -57,11 +58,11 @@ function CompanyData(props) {
       let employee = {
         Employee: {
           employeeID: id,
-          name: { inputValue: "", message: "", sign: "" },
-          age: { inputValue: "", message: "" },
-          email: { inputValue: "", message: "" },
-          jobTitle: { inputValue: "", message: "" },
-          cv: { inputValue: "", message: "" },
+          name: { inputValue: "", message: "", req: true },
+          age: { inputValue: "", message: "", req: true },
+          email: { inputValue: "", message: "", req: true },
+          jobTitle: { inputValue: "", message: "", req: true },
+          cv: { inputValue: "", message: "OK" },
         },
       };
       employeeInformation.push(employee);
@@ -94,6 +95,29 @@ function CompanyData(props) {
     }
   };
 
+  const onFileUpload = (e) => {
+    console.log("hi");
+    const formData = new FormData();
+    formData.append("myFile", e.target.files[0]);
+
+    axios.post("http://localhost:3000/api/uploadfile", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    }); //I need to change this line
+  };
+
+  const onFileDownload = (e) => {
+    axios
+      .get("http://localhost:3000/resume", { responseType: "blob" })
+      .then((res) => {
+        let alink = document.createElement("a");
+        alink.href = URL.createObjectURL(res.data);
+        alink.download = "SamplePDF.pdf";
+        alink.click();
+      });
+  };
+
   return (
     <div className="data-section">
       <div className="data-section-title">Company data:</div>
@@ -119,6 +143,25 @@ function CompanyData(props) {
       <div className="submit-button-container">
         <button className="button" onClick={(e) => props.submitData()}>
           Submit
+        </button>
+      </div>
+      <div>
+        <label for="myfile">Select a file:</label>
+        <input
+          onChange={(e) => onFileUpload(e)}
+          type="file"
+          id="myfile"
+          name="myfile"
+        ></input>
+      </div>
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            onFileDownload();
+          }}
+        >
+          Download
         </button>
       </div>
     </div>

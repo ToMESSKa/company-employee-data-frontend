@@ -10,7 +10,7 @@ function ValidationMessage(props) {
     }else{
       setSign("")
     }
-  });
+  },[props.message]);
 
   function cellColor(status) {
     if (status !== "OK") {

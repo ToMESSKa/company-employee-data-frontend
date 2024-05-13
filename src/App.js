@@ -14,6 +14,7 @@ function App() {
     description: "",
   });
   const [results, setResults] = useState(false);
+  const [file, setFile] = useState();
 
   function* iterator(obj) {
     for (let [key, value] of Object.entries(obj)) {
@@ -23,12 +24,20 @@ function App() {
   }
 
   const submitData = () => {
+    let noError = true;
     const information = employeeInformation.map((employee) => {
       for (let [obj, key, value] of iterator(employee)) {
-        if (key === "message" && value === "") obj[key] = "Field cannot be empty";
+        if (key === "message" && value === "")
+          obj[key] = "Field cannot be empty";
+        else if (key === "message" && value !== "OK") noError = false;
       }
       return employee;
     });
+    console.log(information);
+    if (noError) {
+      console.log("success");
+      setResults(true);
+    }
     console.log(information);
     setEmployeeInformation(information);
   };
@@ -38,6 +47,7 @@ function App() {
       {results ? (
         <div className="App">
           <ResultTable
+            file={file}
             companyInformation={companyInformation}
             employeeInformation={employeeInformation}
           ></ResultTable>
@@ -54,6 +64,7 @@ function App() {
             submitData={submitData}
           ></CompanyData>
           <EmployeeData
+            setFile={setFile}
             setEmployeeInformation={setEmployeeInformation}
             employeeInformation={employeeInformation}
           ></EmployeeData>
