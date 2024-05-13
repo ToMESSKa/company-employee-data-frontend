@@ -27,6 +27,8 @@ function App() {
   }
 
   const submitData = () => {
+    checkInformation(employeeInformation, setEmployeeInformation);
+    checkInformation(companyInformation, setCompanyInformation);
     if (
       checkInformation(employeeInformation, setEmployeeInformation) &&
       checkInformation(companyInformation, setCompanyInformation)
@@ -35,7 +37,6 @@ function App() {
         uploadFile(item);
       }
       setResults(true);
-      console.log(cvs)
     }
   };
 
@@ -46,7 +47,7 @@ function App() {
         if (key === "message" && value === "" && obj.req === true) {
           obj[key] = "Field cannot be empty";
           noError = false;
-        } else if (key === "message" && value !== "OK" && obj.req === true){
+        } else if (key === "message" && value !== "OK" && obj.req === true) {
           noError = false;
         }
       }
@@ -58,9 +59,6 @@ function App() {
   };
 
   const uploadFile = (item) => {
-    // console.log(item);
-    // var new_file = new File([item], "cv" + employeeID.toString() + ".pdf");
-    // console.log(new_file);
     const formData = new FormData();
     formData.append("myFile", item);
     axios.post("http://localhost:3000/api/uploadfile", formData, {
