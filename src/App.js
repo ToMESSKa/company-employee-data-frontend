@@ -17,7 +17,7 @@ function App() {
     },
   ]);
   const [results, setResults] = useState(false);
-  const [file, setFile] = useState();
+  const [cvs, setCVs] = useState([]);
 
   function* iterator(obj) {
     for (let [key, value] of Object.entries(obj)) {
@@ -27,11 +27,16 @@ function App() {
   }
 
   const submitData = () => {
-    if (
-      checkInformation(employeeInformation, setEmployeeInformation) &&
-      checkInformation(companyInformation, setCompanyInformation)
-    ) {
-      setResults(true)
+    // if (
+    //   checkInformation(employeeInformation, setEmployeeInformation) &&
+    //   checkInformation(companyInformation, setCompanyInformation)
+    // ) {
+    //   setResults(true);
+    // }
+
+    console.log(cvs);
+    for (let item of cvs) {
+      onFileUpload(item);
     }
   };
 
@@ -51,10 +56,10 @@ function App() {
     return noError;
   };
 
-  const onFileUpload = (e) => {
+  const onFileUpload = (item) => {
     console.log("hi");
     const formData = new FormData();
-    formData.append("myFile", e.target.files[0]);
+    formData.append("myFile", item);
     axios.post("http://localhost:3000/api/uploadfile", formData, {
       headers: {
         "content-type": "multipart/form-data",
@@ -78,7 +83,6 @@ function App() {
       {results ? (
         <div className="App">
           <ResultTable
-            file={file}
             companyInformation={companyInformation}
             employeeInformation={employeeInformation}
           ></ResultTable>
@@ -95,7 +99,8 @@ function App() {
             submitData={submitData}
           ></CompanyData>
           <EmployeeData
-            setFile={setFile}
+            cvs={cvs}
+            setCVs={setCVs}
             setEmployeeInformation={setEmployeeInformation}
             employeeInformation={employeeInformation}
           ></EmployeeData>

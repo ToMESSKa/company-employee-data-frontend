@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import CVUpload from "./CVUpload";
 
 function EmployeeData(props) {
-  const [file, setFile] = useState();
+
 
   const checkJobTitle = (input, id) => {
     let jobTitleMessage = "";
@@ -38,7 +38,9 @@ function EmployeeData(props) {
     fileformat === "pdf" ? (cvMessage = "OK") : (cvMessage = "Must be a pdf!");
     const employeeInformation = props.employeeInformation.map((employee) => {
       if (employee.Employee.employeeID === id) {
-        props.setFile(file);
+        let newCvs = [...props.cvs]
+        newCvs.push(file)
+        props.setCVs(newCvs)
         return {
           ...employee,
           Employee: {
